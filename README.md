@@ -25,3 +25,8 @@ gcloud compute instances create reddit-app\
   --tags puma-server \
   --restart-on-failure \
   --metadata-from-file startup-script=startup.sh
+
+ gcloud compute firewall-rules create default-puma-server \
+--allow tcp:9292 \
+--source-ranges 0.0.0.0/0 \
+--target-tags puma-server
