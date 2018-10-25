@@ -55,3 +55,23 @@ packer build -var-file variables.json ubuntu16.json
 ```
 packer build -var-file variables1.json immutable.json
 ```
+
+
+# HW6 - Terraform
+
+add multiply ssh users
+
+```
+metadata {
+    ssh-keys = "appuser:${file(var.public_key_path)}appuser1:${file(var.public_key_path)}appuser2:${file(var.public_key_path)}"
+  }
+```
+
+Если добавить ключ пользователя через веб-морду произойдет configuration drift и терраформ удалит его после terraform apply.
+
+У данного балансировщика нет автомасштабирования+разные базы
+
+
+
+
+
