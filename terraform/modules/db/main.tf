@@ -29,4 +29,3 @@ resource "google_compute_instance" "db" {
  # порт будет доступен только для инстансов с тегом ...
  source_tags = ["reddit-app"]
  }
- 
