@@ -18,6 +18,14 @@ resource "google_compute_instance" "db" {
   metadata {
     ssh-keys = "appuser:${file(var.public_key_path)}"
   }
+
+   provisioner "remote-exec" {
+    inline = [
+      "echo '${file("${path.module}/files/mongod.conf")}' > /tmp/mongod.conf",
+      "sudo mv /tmp/mongod.conf /etc/mongod.conf",
+      "sudo service mongod restart",
+    ]
+  }
 }
 
 resource "google_compute_firewall" "firewall_mongo" {
