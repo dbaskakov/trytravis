@@ -39,6 +39,10 @@ resource "google_compute_instance" "app" {
     "sudo service puma restart",
      ]
   }
+
+  provisioner "remote-exec" {
+    script = "${path.module}/files/deploy.sh"
+  }
 }
 
 resource "google_compute_address" "app_ip" {

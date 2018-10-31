@@ -28,20 +28,6 @@
             "type": "shell",
             "script": "scripts/install_ruby.sh",
             "execute_command": "sudo {{.Path}}"
-        },
-        {
-            "type": "file",
-            "source": "files/puma.service",
-            "destination": "/home/appuser/puma.service"
-        },
-        {
-            "type": "shell",
-            "inline": ["sudo cp /home/appuser/puma.service /etc/systemd/system/puma.service"]
-        },
-        {
-            "type": "shell",
-            "script": "scripts/deploy.sh",
-            "execute_command": "sudo {{.Path}}"
         }
     ]
 }
