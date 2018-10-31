@@ -1,11 +1,3 @@
-data "template_file" "puma_service" {
-  template = "${file("${path.module}/files/puma.service")}"
-
-  vars {
-    db_url = "${var.db_url}"
-  }
-}
-
 resource "google_compute_instance" "app" {
   name         = "reddit-app"
   machine_type = "g1-small"
@@ -30,16 +22,23 @@ resource "google_compute_instance" "app" {
     ssh-keys = "appuser:${file(var.public_key_path)}"
   }
 
+  connection {
+    type        = "ssh"
+    user        = "appuser"
+    agent       = false
+    private_key = "${file(var.private_key_path)}"
+  }
+
+   provisioner "file" {
+    source      = "${path.module}/files/puma.service"
+    destination = "/tmp/puma.service"
+    }
+
   provisioner "remote-exec" {
-    inline = [
-      "echo '${data.template_file.puma_service.rendered}' > /tmp/puma.service",
-    ]
+    inline = [ "sudo sed -i 's/127.0.0.1/${var.db_internal_ip}/' reddit/app.rb",
+    "sudo service puma restart",
+     ]
   }
-
-   provisioner "remote-exec" {
-    script = "${path.module}/files/deploy.sh"
-  }
-
 }
 
 resource "google_compute_address" "app_ip" {

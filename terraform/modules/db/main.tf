@@ -19,7 +19,14 @@ resource "google_compute_instance" "db" {
     ssh-keys = "appuser:${file(var.public_key_path)}"
   }
 
-   provisioner "remote-exec" {
+  connection {
+    type        = "ssh"
+    user        = "appuser"
+    agent       = false
+    private_key = "${file(var.private_key_path)}"
+  }
+
+  provisioner "remote-exec" {
     inline = [
       "echo '${file("${path.module}/files/mongod.conf")}' > /tmp/mongod.conf",
       "sudo mv /tmp/mongod.conf /etc/mongod.conf",
