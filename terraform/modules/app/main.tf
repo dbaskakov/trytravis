@@ -29,19 +29,19 @@ resource "google_compute_instance" "app" {
     private_key = "${file(var.private_key_path)}"
   }
 
-   provisioner "file" {
+    provisioner "file" {
     source      = "${path.module}/files/puma.service"
     destination = "/tmp/puma.service"
     }
+
+   provisioner "remote-exec" {
+    script = "${path.module}/files/deploy.sh"
+  }
 
   provisioner "remote-exec" {
     inline = [ "sudo sed -i 's/127.0.0.1/${var.db_internal_ip}/' reddit/app.rb",
     "sudo service puma restart",
      ]
-  }
-
-  provisioner "remote-exec" {
-    script = "${path.module}/files/deploy.sh"
   }
 }
 
