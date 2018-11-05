@@ -1,6 +1,0 @@
-plugin: gcp_compute
-projects:
-  - google.com:infra-219219
-filters:
-auth_kind: serviceaccount
-service_account_file: /Users/imp/keys/infra-219219-c656fdc9924e.json
