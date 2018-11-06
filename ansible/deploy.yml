@@ -1,6 +1,6 @@
 ---
 - name: Deploy
-  hosts: app
+  hosts: reddit-app
   tags: deploy-tag
   become: true
 
