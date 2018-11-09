@@ -2,11 +2,10 @@
 - name: Configure App
   hosts: reddit-app
   become: true
-  vars:
-   db_host: "{{ hostvars['reddit-db']['gce_private_ip'] }}"
-
   # tasks:
   #  - include_role: name=app
 
   roles:
+   - jdauphant.nginx
    - app
+
