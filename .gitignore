@@ -1,0 +1,10 @@
+packer/variables.json
+*.tfstate
+*.tfstate.*.backup
+*.tfstate.backup
+*.tfvars
+.terraform/
+*.retry
+ansible/gce.ini
+jdauphant.nginx
+.vscode

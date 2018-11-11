@@ -1,0 +1,31 @@
+dist: trusty
+sudo: required
+language: bash
+env:
+  - ANSIBLE_VERSION=latest
+before_install:
+- curl https://raw.githubusercontent.com/express42/otus-homeworks/2018-09/run.sh |
+  bash
+- sudo apt-get update -qq
+- sudo apt-get install python3
+- mv packer/variables.json.example  packer/variables.json
+- mv terraform/prod/terraform.tfvars.example  terraform/prod/terraform.tfvars
+- mv terraform/stage/terraform.tfvars.example  terraform/stage/terraform.tfvars
+- cd terraform/stage && wget https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_linux_amd64.zip && unzip terraform_0.11.10_linux_amd64.zip terraform
+
+
+install:
+  - sudo pip install --upgrade pip
+  - sudo pip install ansible
+  - sudo pip install ansible-lint
+  - terraform validate
+
+script:
+  - ansible-lint ansible/playbooks/*.yml
+  - packer validate -var-file=packer/variables.json packer/app.json
+  - packer validate -var-file=packer/variables.json packer/db.json
+
+notifications:
+  slack:
+    rooms:
+      secure: PhRCfqxfpknjipMqk1ePImu7f7kCHRlFurUgwBaRtcPQ3LciiSiJ2tA+k11UvDsW9z8fFlSSmfDVHOu8YKaekyoMhNDaH4Wknn2TrAnz/Pk8GcuLMsCL4HBXR4h9MwRon42aRuxY8Zascv69FV/uVeM3dt8pDPsyNlsaU8/hPgUzoZDNGEPNttEeifjNeOwvS2pm2ek0ucgw3iHYKX1Ir10rO8a1IyUxlg/sFgml/iehcrPghzxgG6lD5SFqHXnNkHZq2/UBkrFNaQ5wnsbTSWtdlUDUnaz2gllIYP+4h09kt3uVarks5MIuqpmWrwENGkmKVHz+SAiVNQeAVR1Jwi8pzhZK+Ejo4uvNglVdx6SeI5ESZZ+JSKTtIeuYGk1wp8rOvmwnTm24dBlSM+uKpXc19TGF8hppvL6iw8MHuCE3dFGrfvcB7MbfEiNVDNYMrbDtpHvxUqcEMrtsxmFhgSO3jq1vqp5dqRxpl/Dp4cxKXu/Tdtih/YbqSVgl3HU280HNT/XNbbMP+WAzCzy2HpldaGqpp/SgJ83PDNMsaKomzn2p1pZtYnjmr+QWrN+EBuDyrd2lXP9BYyD0EuVQKcDd1B1/IGJAusGosr0OWZ7ffTqRQeHaYA6XzIJ/HI4esP9EO7lyVaeTcvGEMQ5CfOIarJSEGQESGSPMZZAFVew=
