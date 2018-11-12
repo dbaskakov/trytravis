@@ -20,7 +20,7 @@ install:
   - sudo pip install ansible
   - sudo pip install ansible-lint
   - echo `pwd`
-  - ls -la
+  - terraform init
   - terraform validate
 
 script:
