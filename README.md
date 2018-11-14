@@ -1,5 +1,6 @@
 # dbaskakov_infra
 dbaskakov Infra repository
+[![Build Status](https://travis-ci.com/Otus-DevOps-2018-09/dbaskakov_infra.svg?branch=ansible-3)](https://travis-ci.com/Otus-DevOps-2018-09/dbaskakov_infra)
 
 #HW9 - Ansible-2
 
