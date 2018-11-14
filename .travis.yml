@@ -25,8 +25,7 @@ install:
   - sudo pip install ansible==2.7.1 ansible-lint==3.5.1
 # Make some preperations
 before_script:
-  - whoami
-  - pwd
+  - python -V
   - touch ~/.ssh/appuser
   - touch ~/.ssh/appuser.pub
   - cp terraform/stage/terraform.tfvars.example terraform/stage/terraform.tfvars
