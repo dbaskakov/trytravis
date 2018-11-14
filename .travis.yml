@@ -19,10 +19,10 @@ install:
   - sudo pip install --upgrade pip
   - sudo pip install ansible
   - sudo pip install ansible-lint
-  - echo `pwd` && cd ..
-  - terraform init && cd stage
-  - terraform init
-  - terraform validate
+  # - echo `pwd` && cd ..
+  # - terraform init && cd stage
+  # - terraform init
+  # - terraform validate
 
 script:
   - ansible-lint ansible/playbooks/*.yml
